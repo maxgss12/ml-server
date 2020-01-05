@@ -13,9 +13,13 @@ router.get('/', async (require, response) => {
 router.get('/:id', async (require, response) => {
     const { id } = require.params;
     const response_items = await fetch(`${url}items/${ id }`);
-    const items = await response_items.json();
-    response.json(items);
-})
+    const item_description = await fetch(`${url}items/${ id }/description`);
 
+    const parse_item = await response_items.json();
+    const parse_item_description = await item_description.json();
+    parse_item.description = parse_item_description.plain_text;
+
+    response.json(parse_item);
+})
 
 module.exports = router;

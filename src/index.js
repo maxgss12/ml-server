@@ -24,8 +24,10 @@ app.set('port', process.env.port || 3001);
 app.set('json spaces', 2);
 
 // routes
-app.use(require('./routes/routes-index'));
 app.use('/api/items', require('./routes/items'));
+app.get('/items/:id', (req, res) => {
+  app.render(req, res, '/items-detail', { id: req.params.id});
+});
 
 // Middelwares
 app.use(morgan('dev'));
